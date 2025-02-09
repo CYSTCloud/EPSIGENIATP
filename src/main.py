@@ -4,30 +4,13 @@ from lstm_model import TextGeneratorLSTM
 import numpy as np
 
 def generer_texte_markov(texte: str, ordre: int = 2, nb_mots: int = 20):
-    """
-    Générer du texte avec le modèle de Markov.
-    Args:
-        texte (str): Texte d'entrée pour l'entraînement
-        ordre (int): Ordre de la chaîne de Markov
-        nb_mots (int): Nombre de mots à générer
-    Returns:
-        str: Texte généré
-    """
+    # Génère du texte avec Markov
     model = MarkovChain(order=ordre)
     model.train(texte)
     return model.generate(max_words=nb_mots)
 
 def generer_texte_lstm(texte: str, taille_vocab: int = 100, longueur_seq: int = 10, nb_mots: int = 20):
-    """
-    Générer du texte avec le modèle LSTM.
-    Args:
-        texte (str): Texte d'entrée pour l'entraînement
-        taille_vocab (int): Taille du vocabulaire
-        longueur_seq (int): Longueur des séquences d'entrée
-        nb_mots (int): Nombre de mots à générer
-    Returns:
-        str: Texte généré
-    """
+    # Génère du texte avec LSTM
     preprocessor = TextPreprocessor(max_vocab_size=taille_vocab)
     cleaned_text = preprocessor.clean_text(texte)
     preprocessor.build_vocabulary(cleaned_text)

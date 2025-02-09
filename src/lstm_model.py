@@ -6,20 +6,14 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 class TextGeneratorLSTM:
     def __init__(self, vocab_size, sequence_length=10, embedding_dim=50):
-        """
-        Initialiser le générateur de texte LSTM.
-        Args:
-            vocab_size (int): Taille du vocabulaire
-            sequence_length (int): Longueur des séquences d'entrée
-            embedding_dim (int): Dimension des embeddings de mots
-        """
+        # Initialisation du modèle LSTM
         self.vocab_size = vocab_size
         self.sequence_length = sequence_length
         self.embedding_dim = embedding_dim
         self.model = self._build_model()
 
     def _build_model(self):
-        """Construire l'architecture du modèle LSTM."""
+        # Construction du modèle LSTM
         model = Sequential([
             # Couche d'embedding pour convertir les indices de mots en vecteurs denses
             Embedding(self.vocab_size, self.embedding_dim, 
@@ -43,13 +37,7 @@ class TextGeneratorLSTM:
         return model
 
     def prepare_sequences(self, text_sequences):
-        """
-        Préparer les séquences d'entrée et les mots cibles pour l'entraînement.
-        Args:
-            text_sequences (list): Liste de séquences de texte
-        Returns:
-            tuple: (X, y) données d'entraînement
-        """
+        # Préparation des séquences pour l'entraînement
         X = []
         y = []
         
@@ -64,26 +52,11 @@ class TextGeneratorLSTM:
         return X, y
 
     def train(self, X, y, epochs=50, batch_size=32):
-        """
-        Entraîner le modèle LSTM.
-        Args:
-            X (numpy.ndarray): Séquences d'entrée
-            y (numpy.ndarray): Mots cibles (encodage one-hot)
-            epochs (int): Nombre d'époques d'entraînement
-            batch_size (int): Taille du batch pour l'entraînement
-        """
+        # Entraînement du modèle
         self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=1)
 
     def generate(self, seed_sequence, words_to_generate=20, temperature=1.0):
-        """
-        Générer du texte en utilisant le modèle entraîné.
-        Args:
-            seed_sequence (numpy.ndarray): Séquence initiale pour démarrer la génération
-            words_to_generate (int): Nombre de mots à générer
-            temperature (float): Contrôle l'aléatoire dans la génération (plus élevé = plus aléatoire)
-        Returns:
-            list: Indices des mots générés
-        """
+        # Génération de texte
         generated = list(seed_sequence)
         
         # Générer un mot à la fois

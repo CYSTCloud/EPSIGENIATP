@@ -6,15 +6,12 @@ class MarkovChain:
     def __init__(self, order: int = 1):
         """
         Initialiser la chaîne de Markov.
-        Args:
-            order (int): L'ordre de la chaîne de Markov (nombre de mots à considérer comme état)
         """
         self.order = order
         self.transitions = defaultdict(lambda: defaultdict(int))
         self.starts = []
 
     def _get_ngrams(self, tokens: List[str]) -> List[Tuple[tuple, str]]:
-        """Générer les n-grammes à partir du texte."""
         ngrams = []
         for i in range(len(tokens) - self.order):
             state = tuple(tokens[i:i + self.order])
@@ -25,8 +22,6 @@ class MarkovChain:
     def train(self, text: str):
         """
         Entraîner la chaîne de Markov sur le texte d'entrée.
-        Args:
-            text (str): Texte d'entrée pour l'entraînement
         """
         tokens = text.lower().split()
         
@@ -52,10 +47,6 @@ class MarkovChain:
     def generate(self, max_words: int = 20) -> str:
         """
         Générer du texte en utilisant le modèle entraîné.
-        Args:
-            max_words (int): Nombre maximum de mots à générer
-        Returns:
-            str: Texte généré
         """
         if not self.starts:
             return ""
